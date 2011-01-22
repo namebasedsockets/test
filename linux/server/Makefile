@@ -1,6 +1,6 @@
 TARGET := namestackserver
 
-CFLAGS := -g -I../linux-2.6.27/include
+CFLAGS := -g -I../../../kernel/include
 
 C_SRCS := \
           main.c
