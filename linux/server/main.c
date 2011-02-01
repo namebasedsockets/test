@@ -8,7 +8,7 @@
  * AF_MAX = 36.  My own modified kernel version 2.6.27 has AF_NAME = 36 (and
  * AF_MAX = 36.)
  */
-#define AF_NAME 35
+#define AF_NAME 36
 #endif
 #ifndef PF_NAME
 #define PF_NAME AF_NAME
