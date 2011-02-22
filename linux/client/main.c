@@ -34,7 +34,7 @@ static int name_is_local(const char *name)
 	return !strcmp(p + 1, "localhost.");
 }
 
-static int resolve_name(int af, const char *name, short port,
+static int resolve_name(int af, const char *name, unsigned short port,
 			struct sockaddr *addr, socklen_t *len)
 {
 	int ret;
@@ -165,7 +165,7 @@ int main(int argc, const char *argv[])
 	int nNames, i;
 	const char **names, *source_name = NULL;
 	int domain = PF_NAME, type, protocol;
-	short port = 0;
+	unsigned short port = 0;
 	int fd;
 
 	/* Look for options */
@@ -260,6 +260,7 @@ int main(int argc, const char *argv[])
 				else
 				{
 					char buf[100];
+					memset(buf, 0, sizeof(buf));
 
 					printf("connect succeeded!\n");
 					ret = read(fd, buf, sizeof(buf));

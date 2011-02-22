@@ -81,6 +81,7 @@ static void do_accept_loop(int fd)
 			else
 			{
 				char buf[100];
+				memset(buf, 0, sizeof(buf));
 
 				printf("wrote hello message\n");
 				ret = read(client_fd, buf, sizeof(buf));
@@ -99,7 +100,7 @@ int main(int argc, const char *argv[])
 	const char *name;
 	struct sockaddr_name addr;
 	int domain, type, protocol;
-	short port = 0;
+	unsigned short port = 0;
 	int fd;
 
 	/* Look for options */
