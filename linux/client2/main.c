@@ -19,6 +19,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#define REPS 100
+
 static int name_is_local(const char *name)
 {
 	const char *p;
@@ -167,7 +169,7 @@ int main(int argc, const char *argv[])
 	int domain = PF_NAME, type, protocol;
 	short port = 0;
 	int fd;
-
+	int i2;
 	/* Look for options */
 	if (argc > 1)
 	{
@@ -262,29 +264,36 @@ int main(int argc, const char *argv[])
 					char buf[100];
 
 					printf("connect succeeded!\n");
-					ret = read(fd, buf, sizeof(buf));
-					if (ret < 0)
-						perror("read");
-					else
+					for(i2 = 0; i2 < REPS; i2++)
 					{
-						static const char reply[] =
-							"greetings";
-
-						printf("got a message: %s\n",
-						       buf);
-						ret = write(fd, reply,
-							    sizeof(reply));
+						ret = read(fd, buf, sizeof(buf));
 						if (ret < 0)
-							perror("write");
+						{
+							perror("read");
+							break;
+						}
 						else
-							printf("wrote a reply\n");
+						{
+							static const char reply[20];
+							sprintf(reply, "greetings %i", i2);
+
+							printf("got a message: %s\n",
+							       buf);
+							ret = write(fd, reply, 20);
+							
+							if (ret < 0)
+								perror("write");
+							else
+								printf("wrote a reply\n");
+						}
 					}
 				}
 			}
 			else
-				perror("resolve");
+			perror("resolve");
+	
+			close(fd);
 		}
-		close(fd);
 	}
 	else
 	{
